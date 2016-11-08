@@ -153,12 +153,11 @@ var CallStats = _try_catch(function(jingleSession, Settings, options) {
             aliasName: Strophe.getResourceFromJid(jingleSession.room.myroomjid),
             userName: Settings.getCallStatsUserName()
         };
-
         //Original confID
         //this.confID = this.session.room.roomjid;
         const location = window.location;
         // The confID is case sensitive!!!
-        this.confID = location.hostname + "/" + options.roomName;
+        this.confID = options.callStatsConfIDNamespace + "/" + options.roomName;
 
         this.callStatsID = options.callStatsID;
         this.callStatsSecret = options.callStatsSecret;
@@ -377,18 +376,6 @@ CallStats.prototype.sendTerminateEvent = _try_catch(function () {
     callStats.sendFabricEvent(this.peerconnection,
         callStats.fabricEvent.fabricTerminated, this.confID);
 });
-
-/**
- * Notifies CallStats that audio problems are detected.
- *
- * @param {Error} e error to send
- * @param {CallStats} cs callstats instance related to the error (optional)
- */
-CallStats.prototype.sendDetectedAudioProblem = _try_catch(function (e) {
-    CallStats._reportError.call(this, wrtcFuncNames.applicationLog, e,
-        this.peerconnection);
-});
-
 
 /**
  * Notifies CallStats for ice connection failed
