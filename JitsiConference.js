@@ -22,7 +22,6 @@ import ParticipantConnectionStatus
     from "./modules/connectivity/ParticipantConnectionStatus";
 import TalkMutedDetection from "./modules/TalkMutedDetection";
 import ConnectionQuality from "./modules/connectivity/ConnectionQuality";
-import RTCBrowserType from "./modules/RTC/RTCBrowserType"
 
 /**
  * Creates a JitsiConference object with the given name and properties.
@@ -167,13 +166,11 @@ JitsiConference.prototype.leave = function () {
         this.participantConnectionStatus = null;
     }
 
-    if(!RTCBrowserType.isUsingTemasys()) {
-      this.getLocalTracks().forEach(track => this.onTrackRemoved(track));
+    this.getLocalTracks().forEach(track => this.onTrackRemoved(track));
 
-      this.rtc.closeAllDataChannels();
-      if(this.statistics)
-          this.statistics.dispose();
-    }
+    this.rtc.closeAllDataChannels();
+    if(this.statistics)
+        this.statistics.dispose();
 
     // leave the conference
     if (this.room) {
